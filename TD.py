@@ -1,3 +1,3 @@
 import pygame
-
-#installer tmx
+from tilemap import *
+#installer pytmx
