@@ -4,6 +4,7 @@ from os import path
 
 textures_dir = path.join(path.dirname(__file__), 'textures')
 
+
 WIDTH = 480
 HEIGHT = 600
 FPS = 60
