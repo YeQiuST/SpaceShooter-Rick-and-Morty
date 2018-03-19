@@ -22,13 +22,13 @@ YELLOW = (255, 255, 0)
 pygame.init()
 pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Shmup!")
+pygame.display.set_caption("Rick's invaders")
 clock = pygame.time.Clock()
 
-class Player(pygame.sprite.Sprite):
+class Player(pygame.sprite. Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(player_textures, (70, 42))
+        self.image = pygame.transform.scale(player_textures, (100, 75 ))
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.radius = 20
@@ -58,8 +58,9 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = morthy_textures
-        self.image.set_colorkey(BLACK)
+        self.image_orig = random.choice(meteor_images)
+        self.image_orig.set_colorkey(BLACK)
+        self.image = self.image_orig.copy()
         self.rect = self.image.get_rect()
         self.radius = int(self.rect.width * .85 / 2)
         # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
@@ -98,6 +99,13 @@ background_rect = background.get_rect()
 player_textures = pygame.image.load(path.join(textures_dir, "ship.png")).convert()
 morthy_textures = pygame.image.load(path.join(textures_dir, "cat.png")).convert()
 bullet_textures = pygame.image.load(path.join(textures_dir, "laserRed16.png")).convert()
+
+meteor_images = []
+meteor_list =['cat.png','blue head.png',
+              'green head.png','red head.png',
+              'yellow head.png']
+for img in meteor_list:
+    meteor_images.append(pygame.image.load(path.join(textures_dir, img)).convert())
 
 all_sprites = pygame.sprite.Group()
 mobs = pygame.sprite.Group()
