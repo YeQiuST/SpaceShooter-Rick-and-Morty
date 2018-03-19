@@ -1,8 +1,8 @@
 import pygame
 import random
+import os
 from os import path
-
-textures_dir = path.join(path.dirname(__file__), 'textures')
+textures_dir = 'textures'
 
 
 WIDTH = 480
@@ -28,11 +28,11 @@ clock = pygame.time.Clock()
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.scale(player_textures, (50, 38))
+        self.image = pygame.transform.scale(player_textures, (70, 42))
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.radius = 20
-        # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
+        # pygame.draw.circle(se lf.image, RED, self.rect.center, self.radius)
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0
@@ -58,7 +58,7 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = meteor_textures
+        self.image = morthy_textures
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.radius = int(self.rect.width * .85 / 2)
@@ -95,8 +95,8 @@ class Bullet(pygame.sprite.Sprite):
 # Load all game graphics
 background = pygame.image.load(path.join(textures_dir, "starfield.png")).convert()
 background_rect = background.get_rect()
-player_textures = pygame.image.load(path.join(textures_dir, "player.png")).convert()
-morthy_textures = pygame.image.load(path.join(textures_dir, "morthy.png")).convert()
+player_textures = pygame.image.load(path.join(textures_dir, "ship.png")).convert()
+morthy_textures = pygame.image.load(path.join(textures_dir, "cat.png")).convert()
 bullet_textures = pygame.image.load(path.join(textures_dir, "laserRed16.png")).convert()
 
 all_sprites = pygame.sprite.Group()
