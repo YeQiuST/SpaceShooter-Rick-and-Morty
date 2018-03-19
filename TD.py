@@ -25,6 +25,18 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Rick's invaders")
 clock = pygame.time.Clock()
 
+font_name = pygame.font.match_font('arial')
+def draw_text(surf, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
+def mobrespawn():
+    m = Mob()
+    all_sprites.add(m)
+    mobs.add(m)
+
 class Player(pygame.sprite. Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -36,6 +48,7 @@ class Player(pygame.sprite. Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0
+        self.hp = 1000
 
     def update(self):
         self.speedx = 0
@@ -112,13 +125,13 @@ mobs = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 player = Player()
 all_sprites.add(player)
-for i in range(8):
-    m = Mob()
-    all_sprites.add(m)
-    mobs.add(m)
+for i in range (8):
+    mobrespawn()
 
 # Game loop
 running = True
+combo = 0
+score = 0
 while running:
     # keep loop running at the right speed
     clock.tick(FPS)
@@ -133,23 +146,27 @@ while running:
 
     # Update
     all_sprites.update()
-
     # check to see if a bullet hit a mob
     hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
     for hit in hits:
-        m = Mob()
-        all_sprites.add(m)
-        mobs.add(m)
+        combo +=1
+        score = combo * 10
+        mobrespawn()
 
     # check to see if a mob hit the player
     hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
     if hits:
-        running = False
+        player.hp -= 350
+        print(player.hp)
+        mobrespawn()
+        if player.hp <= 0:
+            running = False
 
     # Draw / render
     screen.fill(BLACK)
     screen.blit(background, background_rect)
     all_sprites.draw(screen)
+    draw_text(screen, str(score), 18, WIDTH / 2, 10)
     # *after* drawing everything, flip the display
     pygame.display.flip()
 
