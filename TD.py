@@ -39,13 +39,13 @@ def mobrespawn():
 def draw_shield_bar(surf, x, y, pct):
     if pct < 0:
         pct = 0
-    BAR_LENGTH = 1000
+    BAR_LENGTH = 100
     BAR_HEIGHT = 10
     fill = (pct / 100) * BAR_LENGTH
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
     pygame.draw.rect(surf, GREEN, fill_rect)
-    pygame.draw.rect(surf, WHITE, outline_rect, 2)
+    pygame.draw.rect(surf, WHITE, outline_rect, 5)
 
 class Player(pygame.sprite. Sprite):
     def __init__(self):
@@ -58,7 +58,7 @@ class Player(pygame.sprite. Sprite):
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0
-        self.hp = 1000
+        self.hp = 100
 
     def update(self):
         self.speedx = 0
@@ -116,7 +116,7 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
 
-# Load all game graphics
+ # Load all game graphics
 background = pygame.image.load(path.join(textures_dir, "starfield.png")).convert()
 background_rect = background.get_rect()
 player_textures = pygame.image.load(path.join(textures_dir, "ship.png")).convert()
@@ -164,13 +164,13 @@ while running:
         mobrespawn()
 
     # check to see if a mob hit the player
-    hits = pygame.sprite.spritecollide(player, mobs, False, pygame.sprite.collide_circle)
+    hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)
     if hits:
-        player.hp -= 350
+        player.hp -= 40
         print(player.hp)
         mobrespawn()
-        if player.hp <= 0:
-            running = False
+    if player.hp <= 0:
+        running = False
 
     # Draw / render
     screen.fill(BLACK)
