@@ -6,6 +6,7 @@ textures_dir = 'textures'
 animations_dir = 'animations'
 
 
+
 WIDTH = 480
 HEIGHT = 600
 FPS = 60
