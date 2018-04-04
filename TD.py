@@ -1,9 +1,9 @@
 import pygame
 import random
-import os
 from os import path
 textures_dir = 'textures'
 animations_dir = 'animations'
+sons_dir = 'sons'
 
 
 
@@ -19,15 +19,27 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 
-#xD
 # initialize Pygame and create window
 pygame.init()
 pygame.mixer.init()
+pygame.mixer.music.load(path.join(sons_dir, 'musique2.wav'))
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Rick's invaders")
 clock = pygame.time.Clock()
 
 font_name = pygame.font.match_font('arial')
+
+
+'''def game_intro():
+    intro = True
+
+    while intro:
+        screen.fill(BLUE)
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_RETURN]:
+                pygame.quit()
+                quit()'''
+
 
 def draw_text(surf, text, size, x, y):
     font = pygame.font.Font(font_name, size)
@@ -47,7 +59,12 @@ def draw_shield_bar(surf, x, y, pct):
     fill = (pct / 100) * BAR_LENGTH
     outline_rect = pygame.Rect(x, y, BAR_LENGTH, BAR_HEIGHT)
     fill_rect = pygame.Rect(x, y, fill, BAR_HEIGHT)
-    pygame.draw.rect(surf, GREEN, fill_rect)
+    if pct == 100:
+        pygame.draw.rect(surf, GREEN, fill_rect)
+    if pct > 20 and pct < 99:
+        pygame.draw.rect(surf, YELLOW, fill_rect)
+    if pct <= 20:
+        pygame.draw.rect(surf, RED, fill_rect)
     pygame.draw.rect(surf, WHITE, outline_rect, 5)
 
 class Player(pygame.sprite. Sprite):
@@ -57,12 +74,11 @@ class Player(pygame.sprite. Sprite):
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.radius = 20
-        # pygame.draw.circle(se lf.image, RED, self.rect.center, self.radius)
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0
         self.hp = 100
-        self.shoot_delay = 250
+        self.shoot_delay = 200
         self.last_shot = pygame.time.get_ticks()
 
     def update(self):
@@ -87,6 +103,7 @@ class Player(pygame.sprite. Sprite):
             bullet = Bullet(self.rect.centerx, self.rect.top)
             all_sprites.add(bullet)
             bullets.add(bullet)
+    #def alternariveshoot(self):
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
@@ -96,7 +113,6 @@ class Mob(pygame.sprite.Sprite):
         self.image = self.image_orig.copy()
         self.rect = self.image.get_rect()
         self.radius = int(self.rect.width * .85 / 2)
-        # pygame.draw.circle(self.image, RED, self.rect.center, self.radius)
         self.rect.x = random.randrange(WIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 8)
@@ -132,6 +148,9 @@ background_rect = background.get_rect()
 player_textures = pygame.image.load(path.join(textures_dir, "ship.png")).convert()
 morthy_textures = pygame.image.load(path.join(textures_dir, "cat.png")).convert()
 bullet_textures = pygame.image.load(path.join(textures_dir, "laserRed16.png")).convert()
+Altshoot_textures = pygame.image.load(path.join(textures_dir, "laserRed16.png")).convert()
+menu = pygame.image.load(path.join(textures_dir, "menu.png")).convert()
+menu_rect = menu.get_rect()
 
 meteor_images = []
 meteor_list =['cat.png','blue head.png',
@@ -140,18 +159,28 @@ meteor_list =['cat.png','blue head.png',
 for img in meteor_list:
     meteor_images.append(pygame.image.load(path.join(textures_dir, img)).convert())
 
+
 all_sprites = pygame.sprite.Group()
 mobs = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 player = Player()
 all_sprites.add(player)
-for i in range (8):
-    mobrespawn()
 
+difficulty = 8
+for i in range (difficulty):
+    mobrespawn()
 # Game loop
+#game_intro()
 running = True
+pygame.mixer.music.play(loops = -1)
 combo = 0
 score = 0
+if score > 100:
+    difficulty = 10
+elif score > 1000:
+    difficulty = 12
+elif score > 10000:
+    difficulty = 15
 while running:
     # keep loop running at the right speed
     clock.tick(FPS)
