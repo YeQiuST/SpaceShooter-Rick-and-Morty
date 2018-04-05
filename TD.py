@@ -159,7 +159,7 @@ all_sprites.add(player)
 difficulty = 8
 for i in range (difficulty):
     mobrespawn()
-# Game loop
+#Game loop
 #game_intro()
 running = True
 pygame.mixer.music.play(loops = -1)
@@ -174,16 +174,16 @@ elif score > 10000:
 
 start_screen = 0
 while running:
-
-
     if start_screen == 0:
         screen.fill(BLUE)
-        keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_RETURN]:
-            pygame.quit()
-            quit()
-        if keystate[pygame.K_SPACE]:
-            start_screen = 1
+        for event in pygame.event.get():
+            # check for closing window
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    print("Press")
+                    start_screen = 1
 
     elif start_screen == 1:
         # Process input (events)
@@ -220,10 +220,9 @@ while running:
         draw_shield_bar(screen, 5, 5, player.hp)
 
 
-
     # keep loop running at the right speed
     clock.tick(FPS)
     # *after* drawing everything, flip the display
-    pygame.display.flip()
+    pygame.display.update()
 
 pygame.quit()
