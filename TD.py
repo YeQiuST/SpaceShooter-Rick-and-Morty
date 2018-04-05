@@ -175,7 +175,7 @@ elif score > 10000:
 start_screen = 0
 while running:
     if start_screen == 0:
-        screen.fill(BLUE)
+        screen.blit(menu, menu_rect)
         for event in pygame.event.get():
             # check for closing window
             if event.type == pygame.QUIT:
@@ -184,6 +184,7 @@ while running:
                 if event.key == pygame.K_SPACE:
                     print("Press")
                     start_screen = 1
+
 
     elif start_screen == 1:
         # Process input (events)
