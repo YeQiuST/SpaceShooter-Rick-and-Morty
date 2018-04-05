@@ -30,16 +30,6 @@ clock = pygame.time.Clock()
 font_name = pygame.font.match_font('arial')
 
 
-'''def game_intro():
-    intro = True
-
-    while intro:
-        screen.fill(BLUE)
-        keystate = pygame.key.get_pressed()
-        if keystate[pygame.K_RETURN]:
-                pygame.quit()
-                quit()'''
-
 
 def draw_text(surf, text, size, x, y):
     font = pygame.font.Font(font_name, size)
@@ -181,41 +171,58 @@ elif score > 1000:
     difficulty = 12
 elif score > 10000:
     difficulty = 15
+
+start_screen = 0
 while running:
+
+
+    if start_screen == 0:
+        screen.fill(BLUE)
+        keystate = pygame.key.get_pressed()
+        if keystate[pygame.K_RETURN]:
+            pygame.quit()
+            quit()
+        if keystate[pygame.K_SPACE]:
+            start_screen = 1
+
+    elif start_screen == 1:
+        # Process input (events)
+        for event in pygame.event.get():
+            # check for closing window
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    player.shoot()
+
+        # Update
+        all_sprites.update()
+        # check to see if a bullet hit a mob
+        hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
+        for hit in hits:
+            combo +=1
+            score = combo * 10
+            mobrespawn()
+
+        # check to see if a mob hit the player
+        hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)
+        if hits:
+            player.hp -= 40
+            mobrespawn()
+        if player.hp <= 0:
+            running = False
+
+        # Draw / render
+        screen.fill(BLACK)
+        screen.blit(background, background_rect)
+        all_sprites.draw(screen)
+        draw_text(screen, str(score), 18, WIDTH / 2, 10)
+        draw_shield_bar(screen, 5, 5, player.hp)
+
+
+
     # keep loop running at the right speed
     clock.tick(FPS)
-    # Process input (events)
-    for event in pygame.event.get():
-        # check for closing window
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                player.shoot()
-
-    # Update
-    all_sprites.update()
-    # check to see if a bullet hit a mob
-    hits = pygame.sprite.groupcollide(mobs, bullets, True, True)
-    for hit in hits:
-        combo +=1
-        score = combo * 10
-        mobrespawn()
-
-    # check to see if a mob hit the player
-    hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)
-    if hits:
-        player.hp -= 40
-        mobrespawn()
-    if player.hp <= 0:
-        running = False
-
-    # Draw / render
-    screen.fill(BLACK)
-    screen.blit(background, background_rect)
-    all_sprites.draw(screen)
-    draw_text(screen, str(score), 18, WIDTH / 2, 10)
-    draw_shield_bar(screen, 5, 5, player.hp)
     # *after* drawing everything, flip the display
     pygame.display.flip()
 
