@@ -26,6 +26,7 @@ pygame.mixer.music.load(path.join(sons_dir, 'musique2.wav'))
 volume = pygame.mixer.music.get_volume()
 pygame.mixer.music.set_volume(0.1)
 piou = pygame.mixer.Sound(path.join(sons_dir, 'Piou.wav'))
+explo = pygame.mixer.Sound(path.join(sons_dir, 'Explosion.wav'))
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Rick's invaders")
 clock = pygame.time.Clock()
@@ -206,6 +207,7 @@ while running:
         for hit in hits:
             combo +=1
             score = combo * 10
+            explo.play()
             mobrespawn()
 
         # check to see if a mob hit the player
