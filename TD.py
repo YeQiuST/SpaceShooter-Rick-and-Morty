@@ -218,8 +218,6 @@ while running:
 
         ##print score
 
-
-
         # Draw / render
         screen.fill(BLACK)
         screen.blit(background, background_rect)
