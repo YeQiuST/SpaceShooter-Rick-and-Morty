@@ -221,10 +221,10 @@ while running:
         if player.hp <= 0:
             high_scores = score
             print(high_scores)
-            running = False
-            start_screen == 0
-            draw_text(screen, str("Votre Score est : "), 18, WIDTH / 2, 290)
-            draw_text(screen, str(high_scores), 18, WIDTH / 2, 310)
+            player.hp = 100
+            start_screen = 0
+            draw_text(menu, str("Votre Score est : "), 18, WIDTH / 2, 290)
+            draw_text(menu, str(high_scores), 18, WIDTH / 2, 310)
 
 
         # Draw / render
