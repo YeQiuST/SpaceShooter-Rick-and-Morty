@@ -1,5 +1,8 @@
 import pygame
 import random
+import pickle
+import collections
+from operator import itemgetter
 from os import path
 textures_dir = 'textures'
 animations_dir = 'animations'
@@ -214,9 +217,13 @@ while running:
             player.hp -= 40
             mobrespawn()
         if player.hp <= 0:
+            high_scores = score
+            print(high_scores)
             running = False
+            start_screen == 0
+            draw_text(screen, str("Votre Score est : "), 18, WIDTH / 2, 290)
+            draw_text(screen, str(high_scores), 18, WIDTH / 2, 310)
 
-        ##print score
 
         # Draw / render
         screen.fill(BLACK)
