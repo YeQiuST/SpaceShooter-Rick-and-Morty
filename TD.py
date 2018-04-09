@@ -23,6 +23,9 @@ YELLOW = (255, 255, 0)
 pygame.init()
 pygame.mixer.init()
 pygame.mixer.music.load(path.join(sons_dir, 'musique2.wav'))
+volume = pygame.mixer.music.get_volume()
+pygame.mixer.music.set_volume(0.1)
+piou = pygame.mixer.Sound(path.join(sons_dir, 'Piou.wav'))
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Rick's invaders")
 clock = pygame.time.Clock()
@@ -93,6 +96,7 @@ class Player(pygame.sprite. Sprite):
             bullet = Bullet(self.rect.centerx, self.rect.top)
             all_sprites.add(bullet)
             bullets.add(bullet)
+            piou.play()
     #def alternariveshoot(self):
 
 class Mob(pygame.sprite.Sprite):
@@ -181,8 +185,7 @@ while running:
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    print("Press")
+                if event.key == pygame.K_RETURN:
                     start_screen = 1
 
 
