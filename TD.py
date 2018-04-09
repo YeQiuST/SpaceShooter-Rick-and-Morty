@@ -216,6 +216,10 @@ while running:
         if player.hp <= 0:
             running = False
 
+        ##print score
+
+
+
         # Draw / render
         screen.fill(BLACK)
         screen.blit(background, background_rect)
