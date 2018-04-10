@@ -164,6 +164,7 @@ bullets = pygame.sprite.Group()
 player = Player()
 all_sprites.add(player)
 
+high_scores=0
 difficulty = 8
 for i in range (difficulty):
     mobrespawn()
@@ -184,6 +185,8 @@ start_screen = 0
 while running:
     if start_screen == 0:
         screen.blit(menu, menu_rect)
+        draw_text(screen, str("Votre meilleur score est : "), 30, WIDTH / 2, 290)
+        draw_text(screen, str(high_scores), 70, WIDTH / 2, 360)
         for event in pygame.event.get():
             # check for closing window
             if event.type == pygame.QUIT:
@@ -219,12 +222,12 @@ while running:
             player.hp -= 40
             mobrespawn()
         if player.hp <= 0:
-            high_scores = score
-            print(high_scores)
+            if score > high_scores:
+                high_scores = score
+                print(high_scores)
             player.hp = 100
+            score = 0
             start_screen = 0
-            draw_text(menu, str("Votre Score est : "), 18, WIDTH / 2, 290)
-            draw_text(menu, str(high_scores), 18, WIDTH / 2, 310)
 
 
         # Draw / render
