@@ -8,7 +8,7 @@ textures_dir = 'textures'
 animations_dir = 'animations'
 sons_dir = 'sons'
 
-
+#LES BRUITAGES SONT FAIT PAR RAYOU LE CANAILLOU
 
 WIDTH = 480
 HEIGHT = 600
