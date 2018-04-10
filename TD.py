@@ -30,6 +30,8 @@ volume = pygame.mixer.music.get_volume()
 pygame.mixer.music.set_volume(0.1)
 piou = pygame.mixer.Sound(path.join(sons_dir, 'Piou.wav'))
 explo = pygame.mixer.Sound(path.join(sons_dir, 'Explosion.wav'))
+ohman = pygame.mixer.Sound(path.join(sons_dir, 'HitSound.wav'))
+gameover = pygame.mixer.Sound(path.join(sons_dir, 'GameOver.wav'))
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Rick's invaders")
 clock = pygame.time.Clock()
@@ -220,8 +222,10 @@ while running:
         hits = pygame.sprite.spritecollide(player, mobs, True, pygame.sprite.collide_circle)
         if hits:
             player.hp -= 40
+            ohman.play()
             mobrespawn()
         if player.hp <= 0:
+            gameover.play()
             if score > high_scores:
                 high_scores = score
                 print(high_scores)
