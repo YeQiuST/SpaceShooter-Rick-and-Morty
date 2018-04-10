@@ -31,7 +31,7 @@ pygame.mixer.music.set_volume(0.1)
 piou = pygame.mixer.Sound(path.join(sons_dir, 'Piou.wav'))
 explo = pygame.mixer.Sound(path.join(sons_dir, 'Explosion.wav'))
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Rick's invaders")
+pygame.display.set_caption("Rick and Morty vs the universe")
 clock = pygame.time.Clock()
 
 font_name = pygame.font.match_font('arial')
@@ -101,7 +101,6 @@ class Player(pygame.sprite. Sprite):
             all_sprites.add(bullet)
             bullets.add(bullet)
             piou.play()
-    #def alternariveshoot(self):
 
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
@@ -124,6 +123,16 @@ class Mob(pygame.sprite.Sprite):
             self.rect.y = random.randrange(-100, -40)
             self.speedy = random.randrange(1, 8)
 
+class power(pygame.sprite.Sprite):
+    def __init__(self, center):
+        pygame.sprite.Sprite.__init__(self)
+        self.type = random.choice(['shield', 'gun'])
+        self.image = powerup_images[self.type]
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.speedy = 2
+
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -139,6 +148,7 @@ class Bullet(pygame.sprite.Sprite):
         # kill if it moves off the top of the screen
         if self.rect.bottom < 0:
             self.kill()
+
 
  # Load all game graphics
 background = pygame.image.load(path.join(textures_dir, "starfield.png")).convert()
@@ -214,6 +224,7 @@ while running:
             combo +=1
             score = combo * 10
             explo.play()
+            print()
             mobrespawn()
 
         # check to see if a mob hit the player
