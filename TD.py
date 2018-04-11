@@ -167,6 +167,7 @@ player = Player()
 all_sprites.add(player)
 
 high_scores=0
+score = 0
 difficulty = 8
 for i in range (difficulty):
     mobrespawn()
@@ -175,13 +176,6 @@ for i in range (difficulty):
 running = True
 pygame.mixer.music.play(loops = -1)
 combo = 0
-score = 0
-if score > 100:
-    difficulty = 10
-elif score > 1000:
-    difficulty = 12
-elif score > 10000:
-    difficulty = 15
 
 start_screen = 0
 while running:
@@ -228,9 +222,9 @@ while running:
             gameover.play()
             if score > high_scores:
                 high_scores = score
-                print(high_scores)
+                score = 0
+                combo = 0
             player.hp = 100
-            score = 0
             start_screen = 0
 
 
