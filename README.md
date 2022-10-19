@@ -1,5 +1,1 @@
-Bienvenue dans "Rick and morty vs universe" 
-un jeu crée par 3 étudiants de l'école LDLC aimant rick and morty 
-et désirant rendre hommage à cette série. 
-
-
+A simple Space Shooter with Rick and Morty graphics, it was just a simple School project
